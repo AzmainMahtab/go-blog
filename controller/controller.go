@@ -7,17 +7,18 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/AzmainMahtab/go-blog/models"
+	"github.com/AzmainMahtab/go-blog/pkg/handler"
 )
 
 func CreatePost(c *gin.Context) {
 	var post models.Post
 	if err := c.ShouldBindJSON(&post); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		handlers.Error(c, err)
 		return
 	}
 
 	if err := models.Create(&post); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create post"})
+		handlers.Error(c, err)
 		return
 	}
 
@@ -29,10 +30,10 @@ func GetPosts(c *gin.Context) {
 
 	result, err := models.GetPosts()
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve posts"})
+		handlers.Error(c, err)
 		return
 	}
 	posts = *result
 
-	c.JSON(http.StatusOK, gin.H{"message": "Posts retrieved successfully", "data": posts})
+	handlers.Success(c, posts, nil, "Post created successfully")
 }
