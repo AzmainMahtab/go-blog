@@ -33,7 +33,6 @@ func Success(c *gin.Context, data interface{}, meta interface{}, message string)
 // Error handles all error responses consistently
 func Error(c *gin.Context, err error) {
 	var response responses.Response
-
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
 		response = handleNotFoundError(err)
