@@ -9,7 +9,7 @@ import (
 
 type Post struct {
 	gorm.Model
-	Title  string `json:"title" gorm:"not null"`
+	Title  string `json:"title" gorm:"not null; unique"`
 	Body   string `json:"body" gorm:"not null"`
 	Author string `json:"author" gorm:"not null"`
 }
